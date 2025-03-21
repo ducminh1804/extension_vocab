@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Extension",
+  "description": "Base Level Extension",
+  "version": "1.2",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "image.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications",
+    "scripting",
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "js": ["content.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "commands": {
+    "toggle-feature": {
+      "suggested_key": {
+        "default": "Ctrl+Q"
+      },
+      "description": "Bắt tổ hợp Ctrl + Q"
+    }
+  }
+}
