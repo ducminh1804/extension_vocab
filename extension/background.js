@@ -1,4 +1,4 @@
-import { vocab } from "./fetchVocab.js";
+import { vocab, addWord } from "./fetchVocab.js";
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("chao mung ban da cai dat extension");
@@ -29,8 +29,21 @@ chrome.commands.onCommand.addListener((command) => {
 
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length > 0) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: "get_selected_text" });
+        chrome.tabs.sendMessage(
+          tabs[0].id,
+          { action: "get_selected_text" },
+          (response) => {
+            // console.log("object nhan duoc tu content:", response.selectedText);
+            const newWord = JSON.parse(response.value);
+            newWord.word = response.key;
+            addWord(newWord);
+          }
+        );
       }
     });
   }
 });
+
+//  computed property names
+// const newObj = { [response.key]: response.value };
+// console.log(newObj);

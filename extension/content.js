@@ -1,7 +1,5 @@
 document.addEventListener("mouseup", async (event) => {
   const selectedText = window.getSelection().toString().trim();
-  tooltip.innerText = "Đang tra từ...";
-
   if (selectedText) {
     console.log("Selected Word:", selectedText);
     chrome.runtime.sendMessage(
@@ -107,6 +105,12 @@ document.addEventListener("mouseup", async (event) => {
           tooltip.style.left = `20%`;
           tooltip.style.top = `${event.pageY + 10}px`;
           tooltip.style.display = "block";
+
+          sessionStorage.setItem(selectedText, JSON.stringify(response.data));
+
+          chrome.storage.session.set({ username: "JohnDoe" }, () => {
+            console.log("Username saved in session storage!");
+          });
         } else {
           tooltip.style.display = "none";
         }
@@ -119,8 +123,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   switch (message.action) {
     case "get_selected_text":
       const selectedText = window.getSelection().toString().trim();
+      const dataReturn = sessionStorage.getItem(selectedText);
+      console.log(dataReturn);
       boldWords(selectedText);
       console.log("tu dc gui len tu bg:", selectedText);
+      //gui cho tu in dam // line 26
+      sendResponse({ key: selectedText, value: dataReturn });
       break;
 
     default:
