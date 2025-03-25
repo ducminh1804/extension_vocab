@@ -3,6 +3,9 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import cors from "cors";
 import { sequelize } from "./src/configs/config.js";
 import wordRoutes from "./src/routes/word.routes.js"; // Thêm .js vào cuối
+import { Example } from "./src/models/example.js";
+import { Word } from "./src/models/word.js";
+import { Meaning } from "./src/models/meaning.js";
 const key = "AIzaSyDvEadDToHzT16oMwDWpLJFpvUxYNucx1o";
 
 const genAI = new GoogleGenerativeAI(key);

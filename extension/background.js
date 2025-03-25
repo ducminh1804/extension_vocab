@@ -1,21 +1,32 @@
 import { vocab } from "./fetchVocab.js";
 
 chrome.runtime.onInstalled.addListener(() => {
+  console.log("chao mung ban da cai dat extension");
   chrome.alarms.create("keepAlive", { periodInMinutes: 1 });
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "lookupWord") {
-    vocab(message.word).then((res) => console.log(res));
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs.length > 0) {
+        vocab(message.word).then((res) => {
+          chrome.tabs.sendMessage(tabs[0].id, {
+            action: "show_word_info",
+            data: res,
+          });
+          sendResponse({ data: res });
+        });
+      }
+    });
   }
+  return true;
 });
 
-//ban msg ve cho content
+// ban msg ve cho content
 chrome.commands.onCommand.addListener((command) => {
   if (command === "toggle-feature") {
     console.log("🎯 Tổ hợp Ctrl + Q đã được nhấn!");
 
-    // Lấy từ đang được bôi đen từ content script
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length > 0) {
         chrome.tabs.sendMessage(tabs[0].id, { action: "get_selected_text" });
@@ -23,5 +34,3 @@ chrome.commands.onCommand.addListener((command) => {
     });
   }
 });
-
-// Hàm lấy từ bôi đen và gửi về background

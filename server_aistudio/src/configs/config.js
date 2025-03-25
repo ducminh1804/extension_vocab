@@ -15,3 +15,4 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+await sequelize.sync({ force: true }); // Xóa toàn bộ bảng & tạo lại

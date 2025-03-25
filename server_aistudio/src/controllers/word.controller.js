@@ -2,6 +2,7 @@ import { WordService } from "../services/word.service.js"; // ✅ Đổi require
 
 export class WordController {
   static async create(req, res) {
+    console.log(req.body);
     const word = await WordService.createWord(req.body);
     res.status(201).json(word);
   }
