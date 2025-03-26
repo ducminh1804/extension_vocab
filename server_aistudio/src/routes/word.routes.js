@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/", WordController.create);
 router.get("/", WordController.getAll);
-router.get("/:id", WordController.getById);
+router.get("/:word", WordController.getByWord);
 router.put("/:id", WordController.update);
 router.delete("/:id", WordController.delete);
 

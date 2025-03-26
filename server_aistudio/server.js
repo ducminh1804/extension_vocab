@@ -6,7 +6,8 @@ import wordRoutes from "./src/routes/word.routes.js"; // Thêm .js vào cuối
 import { Example } from "./src/models/example.js";
 import { Word } from "./src/models/word.js";
 import { Meaning } from "./src/models/meaning.js";
-const key = "AIzaSyDvEadDToHzT16oMwDWpLJFpvUxYNucx1o";
+import { WordService } from "./src/services/word.service.js";
+const key = "AIzaSyAKvzQLnXEUUZlDGmh0BWhjFZ08sOKTelI";
 
 const genAI = new GoogleGenerativeAI(key);
 
@@ -18,6 +19,11 @@ app.use(cors());
 app.post("/extension", async (req, res) => {
   try {
     const { word } = req.body;
+    const data = await WordService.getByWord(word);
+
+    if (data != null) {
+      return res.json(data);
+    }
 
     const prompt = `Provide the following information for the English word "${word}":
 1. The five most common meanings of the word in Vietnamese.

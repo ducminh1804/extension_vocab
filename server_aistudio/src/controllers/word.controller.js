@@ -12,8 +12,8 @@ export class WordController {
     res.status(200).json(words);
   }
 
-  static async getById(req, res) {
-    const word = await WordService.getWordById(req.params.id);
+  static async getByWord(req, res) {
+    const word = await WordService.getByWord(req.params.word);
     word
       ? res.status(200).json(word)
       : res.status(404).json({ error: "Not found" });
