@@ -22,9 +22,11 @@ app.post("/extension", async (req, res) => {
     const data = await WordService.getByWord(word);
 
     if (data != null) {
+      console.log("lay tu db");
       return res.json(data);
     }
 
+    console.log("fetch tu aistudio");
     const prompt = `Provide the following information for the English word "${word}":
 1. The five most common meanings of the word in Vietnamese.
 2. The IPA pronunciation.
