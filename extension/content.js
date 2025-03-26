@@ -1,32 +1,33 @@
 document.addEventListener("mouseup", async (event) => {
   const selectedText = window.getSelection().toString().trim();
-  if (sessionStorage.getItem(selectedText.toLowerCase()) != null) {
-    const { examples, ipa, meanings } = JSON.parse(
-      sessionStorage.getItem(selectedText.toLowerCase())
-    );
-    generateTooltip(examples, ipa, meanings, event);
-  } else {
-    console.log("Selected Word:", selectedText);
-    chrome.runtime.sendMessage(
-      { type: "lookupWord", word: selectedText },
-      (response) => {
-        console.log("Word Info:", response.data);
-        if (response) {
-          const { examples, ipa, meanings } = response.data;
-          generateTooltip(examples, ipa, meanings, event);
-          // Tạo container chính
-          sessionStorage.setItem(
-            selectedText.toLowerCase(),
-            JSON.stringify(response.data)
-          );
-        } else {
-          tooltip.style.display = "none";
+  if (selectedText) {
+    if (sessionStorage.getItem(selectedText.toLowerCase()) != null) {
+      const { examples, ipa, meanings } = JSON.parse(
+        sessionStorage.getItem(selectedText.toLowerCase())
+      );
+      generateTooltip(examples, ipa, meanings, event);
+    } else {
+      console.log("Selected Word:", selectedText);
+      chrome.runtime.sendMessage(
+        { type: "lookupWord", word: selectedText },
+        (response) => {
+          console.log("Word Info:", response.data);
+          if (response) {
+            const { examples, ipa, meanings } = response.data;
+            generateTooltip(examples, ipa, meanings, event);
+            // Tạo container chính
+            sessionStorage.setItem(
+              selectedText.toLowerCase(),
+              JSON.stringify(response.data)
+            );
+          } else {
+            tooltip.style.display = "none";
+          }
         }
-      }
-    );
+      );
+    }
   }
 });
-
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   switch (message.action) {
