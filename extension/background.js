@@ -34,9 +34,13 @@ chrome.commands.onCommand.addListener((command) => {
           { action: "get_selected_text" },
           (response) => {
             // console.log("object nhan duoc tu content:", response.selectedText);
-            const newWord = JSON.parse(response.value);
-            newWord.word = response.key;
-            addWord(newWord);
+            try {
+              const newWord = JSON.parse(response.value);
+              newWord.word = response.key;
+              addWord(newWord);
+            } catch (error) {
+              console.log(error);
+            }
           }
         );
       }

@@ -8,23 +8,27 @@ document.addEventListener("mouseup", async (event) => {
       generateTooltip(examples, ipa, meanings, event);
     } else {
       console.log("Selected Word:", selectedText);
-      chrome.runtime.sendMessage(
-        { type: "lookupWord", word: selectedText },
-        (response) => {
-          console.log("Word Info:", response.data);
-          if (response) {
-            const { examples, ipa, meanings } = response.data;
-            generateTooltip(examples, ipa, meanings, event);
-            // Tạo container chính
-            sessionStorage.setItem(
-              selectedText.toLowerCase(),
-              JSON.stringify(response.data)
-            );
-          } else {
-            tooltip.style.display = "none";
+      try {
+        chrome.runtime.sendMessage(
+          { type: "lookupWord", word: selectedText },
+          (response) => {
+            console.log("Word Info:", response.data);
+            if (response) {
+              const { examples, ipa, meanings } = response.data;
+              generateTooltip(examples, ipa, meanings, event);
+              // Tạo container chính
+              sessionStorage.setItem(
+                selectedText.toLowerCase(),
+                JSON.stringify(response.data)
+              );
+            } else {
+              tooltip.style.display = "none";
+            }
           }
-        }
-      );
+        );
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 });
