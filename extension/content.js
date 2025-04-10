@@ -180,3 +180,16 @@ const generateTooltip = (examples, ipa, meanings, event) => {
   tooltip.style.top = `${event.pageY + 10}px`;
   tooltip.style.display = "block";
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("resetButton");
+  if (btn) {
+
+    btn.addEventListener("click", () => {
+      chrome.runtime.sendMessage({ type: "reset" });
+      console.log("object reset extension");
+    });
+  } else {
+    console.warn("Không tìm thấy nút reset!");
+  }
+});

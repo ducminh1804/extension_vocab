@@ -59,6 +59,17 @@ npm run dev
 5. Hoàn tất: Tiện ích sẽ hiển thị trên thanh công cụ
 
 > ✅ Sau khi cài, bạn có thể bôi đen từ và nhấn `Ctrl + Q` để tra cứu + highlight.
+```
+<p align="center">
+    <img src="./img/image1.png" alt="Trang chủ" width="800"/>
+  <br>
+  <em>Bôi đen để thực hiện tra cứu và lưu vào Session Storage</em>
+    <br></br>
+</p>
 
-
-
+<p align="center">
+      <img src="./img/image.png" alt="Trang chủ" width="800"/>
+  <br>
+  <em>Nhấn Ctrl + Q để hightlight và lưu vào Database</em>
+    <br></br>
+</p>
